@@ -9,8 +9,4 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "homepage": "https://florovarelaa.github.io/JS-costos-calculator/",
-  "dependencies": {
-    "gh-pages": "^2.0.1"
-  }
 }
