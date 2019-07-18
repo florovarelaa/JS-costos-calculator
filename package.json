@@ -1,0 +1,16 @@
+{
+  "name": "costos-calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://florovarelaa.github.io/costos-calculator",
+  "dependencies": {
+    "gh-pages": "^2.0.1"
+  }
+}
