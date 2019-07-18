@@ -1,0 +1,78 @@
+#container {
+    width: 30%;
+    height: 25%;
+    background-color: rgb(255, 254, 193);
+
+    border: 2px solid rgb(223, 15, 171);
+    border-radius: 25px;
+
+    font-family: cambria;
+    text-align: center;
+
+    margin: 0 auto;
+}
+
+h1 {
+    top: 0;
+    text-align: center;
+}
+
+.Person {
+    font-family: cambria;
+    font-size: 120%;
+    border: 1px ridge rgb(223, 15, 171);
+    background-color: rgb(253, 251, 127);
+    margin: 1px;   
+    outline: none; 
+    border-radius: 5px;
+    text-align: center;
+}
+
+.Amount {
+    font-family: cambria;
+    font-size: 120%;
+    border: 1px ridge rgb(223, 15, 171);
+    background-color: rgb(253, 251, 127);
+    margin: 1px;   
+    outline: none; 
+    border-radius: 5px;
+    text-align: center;
+    width: 20%;
+}
+
+button {
+    width: 80%;
+    height: 40%;
+    border-radius: 10px;
+    background-color: khaki;
+
+    padding: 5px;
+    margin: 10px;
+
+    font-family: Cambria; 
+    font-size: 105%;
+
+    outline: none;
+}
+
+button:hover {
+    background-color: rgb(228, 217, 119);
+}
+
+p {
+    font-size: 20px;
+    text-align: left;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#NumberOfPeople{
+    width: 70%;
+    padding: 8px 15px;
+    border: 2px solid rgb(223, 15, 171);
+    border-radius: 10px;
+    outline: none;
+    background-color: rgb(255, 254, 193);
+    font-family: Cambria;
+    font-size: 18px;
+}
