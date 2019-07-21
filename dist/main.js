@@ -15,15 +15,21 @@ window.onload = function() {
         CalculaQuienPagaAQuien();
         MuestraQuienPagaAQuien();
     });
+
+    document.getElementById("BtnReset").addEventListener('click', function(){
+        reset();
+        resetPeople();
+    });
 };
 
 //Generate People Name and Amount payed inputs on PeopleInputs div
 function GeneratePeopleInputs(){
+    reset();
+
     NumPeople = document.getElementById("NumberOfPeople").value -1;
     let people = document.getElementById("PeopleInputs");
 
-    for(i = 0; i <= NumPeople; i++)
-    {
+    for(i = 0; i <= NumPeople; i++) {
         //create input to enter person name
         person = document.createElement('input');
         person.setAttribute("id", "person"+i);
@@ -44,6 +50,27 @@ function GeneratePeopleInputs(){
     }
 
 //Al rehacerle click, deberian borrarse los ya existentes.
+}
+
+function deleteChild(Node) { 
+    while (Node.firstChild) {
+        Node.removeChild(Node.firstChild);
+    }
+}
+
+function reset () {
+    document.getElementById("pTotal").innerHTML = "TOTAL: ";
+    document.getElementById("pEach").innerHTML = "Each should pay: ";
+
+    let PeopleInputsNode = document.getElementById('PeopleInputs');
+    deleteChild(PeopleInputsNode);
+    
+    let toFrom = document.getElementById('toFrom');
+    deleteChild(toFrom);
+}
+
+function resetPeople() {
+    document.getElementById("NumberOfPeople").value = '';
 }
 
 //calcula el total de los costos de cada persona sumados
@@ -125,7 +152,7 @@ function getPeopleMax(currPeople){
 function GeneratePeopleArray(){
     people = [];
     for(i = 0; i <= NumPeople; i++){
-        var elem = {  name: document.getElementById("person"+i).value, 
+        let elem = {  name: document.getElementById("person"+i).value, 
                       amount: parseFloat(document.getElementById("amount"+i).value),
                       actAmount: parseFloat(document.getElementById("amount"+i).value),
                       payTo: [], 
@@ -171,7 +198,7 @@ function MuestraQuienPagaAQuien(){
 
 function isNumberKey(evt)
 {
-   var charCode = (evt.which) ? evt.which : event.keyCode
+   let charCode = (evt.which) ? evt.which : event.keyCode
    if (charCode > 31 && (charCode < 48 || charCode > 57))
       return false;
 
