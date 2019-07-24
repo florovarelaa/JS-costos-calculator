@@ -64,6 +64,13 @@ p {
     margin-right: 10%;
 }
 
+h3 {
+    font-size: 20px;
+    text-align: left;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
 #NumberOfPeople{
     width: 70%;
     padding: 8px 15px;
@@ -77,4 +84,8 @@ p {
 
 .hidden {
     display: none;
+}
+
+li, #listTransaction {
+    list-style-type: none;
 }

@@ -65,7 +65,7 @@ function reset () {
     let PeopleInputsNode = document.getElementById('PeopleInputs');
     deleteChild(PeopleInputsNode);
     
-    let toFrom = document.getElementById('toFrom');
+    let toFrom = document.getElementById('listTransaction');
     deleteChild(toFrom);
 
     document.getElementById('inputsError').setAttribute('class', 'hidden');
@@ -182,36 +182,43 @@ function GeneratePeopleArray(){
 }
 
 function MuestraQuienPagaAQuien(){
-    divToFrom = document.getElementById("toFrom");
-    divToFrom.text = '';
-    console.log(people);
-    people.forEach(function(element){
+    let transaction = document.querySelector( "#toFrom ul" );
+    transaction.text = '';
+    people.forEach( element => {
         //create paragraph for each person name
-        paraName = document.createElement('p');
-        text = document.createTextNode(element.name + ': ');
-        paraName.appendChild(text);
-        divToFrom.appendChild(paraName);
+        let paraName = document.createElement('li');
+        let header = document.createElement('h3');
+        let text = document.createTextNode(element.name);
+        header.appendChild(text);
+        paraName.appendChild(header);
+        transaction.appendChild(paraName);
         paraName.setAttribute('class', 'toFrom');
 
         //append to each person name, who to pay and who to receive from
-        paraPayTo = document.createElement('p');
-        text = document.createTextNode('Pay To: ');
+        let paraPayTo = document.createElement('p');
+        text = document.createTextNode('To');
         paraPayTo.appendChild(text);
         paraName.appendChild(paraPayTo);
 
-        element.payTo.forEach(function (element){
-            text = document.createTextNode(element.name + ': ' + element.amount + ', ');
-            paraPayTo.appendChild(text);
+        let list = document.createElement('ul');
+        paraName.appendChild(list);
+        element.payTo.forEach( element => {
+            let li = document.createElement('li');
+            li.textContent = element.name + ': ' + element.amount;
+            list.appendChild(li);
         });
 
-        paraReceiveFrom = document.createElement('p');
-        text = document.createTextNode('Receive From: ');
+        let paraReceiveFrom = document.createElement('p');
+        text = document.createTextNode('From');
         paraReceiveFrom.appendChild(text);
         paraName.appendChild(paraReceiveFrom);
 
-        element.receiveFrom.forEach(function (element){
-            text = document.createTextNode(element.name + ': ' + element.amount + ', ');
-            paraReceiveFrom.appendChild(text);
+        list = document.createElement('ul');
+        paraName.appendChild(list);
+        element.receiveFrom.forEach( element => {
+            let li = document.createElement('li');
+            li.textContent = element.name + ': ' + element.amount;
+            list.appendChild(li);
         });
     });
 }
