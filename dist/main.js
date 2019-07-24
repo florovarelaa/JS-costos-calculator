@@ -11,6 +11,9 @@ window.onload = function() {
     });
 
     document.getElementById("BtnCalculate").addEventListener('click', function(){
+        if (!validarCampos()) {
+            return;
+        }
         CalculaTotal();
         CalculaQuienPagaAQuien();
         MuestraQuienPagaAQuien();
@@ -33,23 +36,20 @@ function GeneratePeopleInputs(){
         //create input to enter person name
         person = document.createElement('input');
         person.setAttribute("id", "person"+i);
-        person.setAttribute("placeholder", "Person"+(i+1));
-        person.setAttribute("class", "Person");
+        person.setAttribute("placeholder", "Person "+(i+1));
+        person.setAttribute("class", "personinput person");
 
         //create input to enter amount payed by the person
         valueInput = document.createElement('input');
         valueInput.setAttribute("id", "amount"+i);
         valueInput.setAttribute("placeholder", "$0.00");
         valueInput.setAttribute("onkeypress", "return isNumberKey(event)");
-        valueInput.setAttribute("class", "Person");
-        valueInput.setAttribute("class", "Amount");
+        valueInput.setAttribute("class", "personinput amount");
 
         people.appendChild(person);
         people.appendChild(valueInput);
         people.appendChild(document.createElement('br'));
     }
-
-//Al rehacerle click, deberian borrarse los ya existentes.
 }
 
 function deleteChild(Node) { 
@@ -59,18 +59,37 @@ function deleteChild(Node) {
 }
 
 function reset () {
-    document.getElementById("pTotal").innerHTML = "TOTAL: ";
-    document.getElementById("pEach").innerHTML = "Each should pay: ";
+    document.getElementById("pTotal").innerHTML = "Total: ";
+    document.getElementById("pEach").innerHTML = "Each: ";
 
     let PeopleInputsNode = document.getElementById('PeopleInputs');
     deleteChild(PeopleInputsNode);
     
     let toFrom = document.getElementById('toFrom');
     deleteChild(toFrom);
+
+    document.getElementById('inputsError').setAttribute('class', 'hidden');
 }
 
 function resetPeople() {
     document.getElementById("NumberOfPeople").value = '';
+}
+
+function validarCampos() {
+    let inputs = Array.from(document.getElementsByClassName('personinput'));
+    if (inputs.length === 0) {
+        return;
+    }
+    let inputsFilled = inputs.every( e => {
+        return e.value.length > 0;
+    });
+    if (!inputsFilled) {
+        document.getElementById('inputsError').removeAttribute('class', 'hidden');
+        return false;
+    } else {
+        document.getElementById('inputsError').setAttribute('class', 'hidden');
+        return true;
+    }
 }
 
 //calcula el total de los costos de cada persona sumados
@@ -84,8 +103,8 @@ function CalculaTotal(){
     //cuando debe pagar cada uno redondeado hacia abajo.
     amountEach = Math.floor((total/people.length)*100)/100;
 
-    document.getElementById("pTotal").innerHTML = "TOTAL: " + total;
-    document.getElementById("pEach").innerHTML = "Each should pay: " + amountEach;
+    document.getElementById("pTotal").innerHTML = "Total: " + total;
+    document.getElementById("pEach").innerHTML = "Each: " + amountEach;
 }
 
 //calcula quien debe pagar o debe cobrar, cuanto y a quien o de quien. Para cada elemento
@@ -165,10 +184,11 @@ function GeneratePeopleArray(){
 function MuestraQuienPagaAQuien(){
     divToFrom = document.getElementById("toFrom");
     divToFrom.text = '';
+    console.log(people);
     people.forEach(function(element){
         //create paragraph for each person name
         paraName = document.createElement('p');
-        text = document.createTextNode('*' + element.name + ': ');
+        text = document.createTextNode(element.name + ': ');
         paraName.appendChild(text);
         divToFrom.appendChild(paraName);
         paraName.setAttribute('class', 'toFrom');
