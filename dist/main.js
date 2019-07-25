@@ -29,16 +29,15 @@ window.onload = function() {
 function GeneratePeopleInputs(){
     reset();
 
-    let NumPeople = document.getElementById("NumberOfPeople").value -1;
-    let people = document.getElementById("PeopleInputs");
-
+    NumPeople = document.getElementById("NumberOfPeople").value -1;
+    people = document.getElementById("PeopleInputs");
     if (NumPeople >= 0) {
         document.getElementById("calculateContainer").removeAttribute('class', 'hidden');
     }
 
     for(i = 0; i <= NumPeople; i++) {
         //create input to enter person name
-        person = document.createElement('input');
+        let person = document.createElement('input');
         person.setAttribute("id", "person"+i);
         person.setAttribute("placeholder", "Person "+(i+1));
         person.setAttribute("class", "personinput person");
@@ -49,6 +48,9 @@ function GeneratePeopleInputs(){
         valueInput.setAttribute("placeholder", "$0.00");
         valueInput.setAttribute("onkeypress", "return isNumberKey(event)");
         valueInput.setAttribute("class", "personinput amount");
+
+        person.setAttribute("value", "Persona" + i);
+        valueInput.setAttribute("value", i);
 
         people.appendChild(person);
         people.appendChild(valueInput);
@@ -94,9 +96,7 @@ function validateInputs() {
         inputs.forEach( e => {
             if (e.value  === '') {
                 document.getElementById(e.id).setAttribute('class', 'error');
-                console.log('floro');
             } else {
-                console.log('floro');
                 document.getElementById(e.id).removeAttribute('class', 'error');
             }
         })
@@ -110,14 +110,14 @@ function validateInputs() {
 //calcula el total de los costos de cada persona sumados
 function CalculaTotal(){
     let total = 0;
-    GeneratePeopleArray();
+    people = GeneratePeopleArray();
     people.forEach(function (element) { //Podria hacerse con un reduce? como?
         total += element.amount;
     });
-
+    
     //cuando debe pagar cada uno redondeado hacia abajo.
     amountEach = Math.floor((total/people.length)*100)/100;
-
+    
     document.getElementById("pTotal").innerHTML = "Total: " + total;
     document.getElementById("pEach").innerHTML = "Each: " + amountEach;
 }
@@ -126,7 +126,6 @@ function CalculaTotal(){
 //del arreglo personas, establece a quien le deebe pagar y cuanto y
 //de quien debe cobrar y cuanto.
 function CalculaQuienPagaAQuien(){
-    
     let min = getPeopleMin(people);
     while(min.amount != amountEach && min.amount < amountEach){
         let max = getPeopleMax(people);
@@ -184,16 +183,18 @@ function getPeopleMax(currPeople){
 
 //Generate array of people objects with its corresponding attributes.
 function GeneratePeopleArray(){
-    people = [];
+    let people = [];
     for(i = 0; i <= NumPeople; i++){
-        let elem = {  name: document.getElementById("person"+i).value, 
-                      amount: parseFloat(document.getElementById("amount"+i).value),
-                      actAmount: parseFloat(document.getElementById("amount"+i).value),
-                      payTo: [], 
-                      receiveFrom: []
-                    };
-        people.push(elem);
+        let elem = {
+            name: document.getElementById("person"+i).value, 
+            amount: parseFloat(document.getElementById("amount"+i).value),
+            actAmount: parseFloat(document.getElementById("amount"+i).value),
+            payTo: [], 
+            receiveFrom: []
+        };
+    people.push(elem);
     }
+    return people
 }
 
 function MuestraQuienPagaAQuien(){
