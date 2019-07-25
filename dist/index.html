@@ -4,31 +4,42 @@
     <meta charset="utf-8" />
     <title>Costos Calculator</title>
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <script src="main.js"></script>
 </head>
 <body>
     <div id="container">
-    <h1 id="title">DIVIDER</h1>
-        <input id="NumberOfPeople" onkeypress="return isNumberKey(event)" type="text" placeholder="N° People">
-        </br>
-        <button id="BtnPeopleGenerator" type="button">Generate</button>
+        <div id="title">
+            <h1>DIVIDER</h1>
+        </div>
+        <div id="NumberOfPeopleContainer">
+            <div>
+                <label>N° of People</label>
+            </div>
+            <input id="NumberOfPeople" onkeypress="return isNumberKey(event)" type="text" placeholder="0">
+        </div>
+        <div id="buttonsContainer">
+            <button id="BtnPeopleGenerator" type="button" class="button">Generate</button>
+            <button id="BtnReset" class="button">Reset</button>
+        </div>
 
         <div id="PeopleInputs">
         </div>
-        <div>
-            <p id="inputsError" class="hidden">Fill all inputs</p>
+        
+        <div id="calculateContainer" class="hidden">
+            <div class="container-flex p-left-10 p-top-5">
+                <button id="BtnCalculate" class="button">Calculate</button>
+                <p id="inputsError" class="hidden">Fill all inputs</p>
+            </div>
         </div>
-
-        <button id="BtnCalculate">Calculate</button>
+        
         <p id="pTotal">Total: </p>
         <p id="pEach">Each: </p>
         
         <div id="toFrom">
             <ul id="listTransaction">
-
             </ul>
         </div>
-        <button id="BtnReset">Reset</button>
 
     </div>
 </body>

@@ -11,7 +11,7 @@ window.onload = function() {
     });
 
     document.getElementById("BtnCalculate").addEventListener('click', function(){
-        if (!validarCampos()) {
+        if (!validateInputs()) {
             return;
         }
         CalculaTotal();
@@ -29,8 +29,12 @@ window.onload = function() {
 function GeneratePeopleInputs(){
     reset();
 
-    NumPeople = document.getElementById("NumberOfPeople").value -1;
+    let NumPeople = document.getElementById("NumberOfPeople").value -1;
     let people = document.getElementById("PeopleInputs");
+
+    if (NumPeople >= 0) {
+        document.getElementById("calculateContainer").removeAttribute('class', 'hidden');
+    }
 
     for(i = 0; i <= NumPeople; i++) {
         //create input to enter person name
@@ -69,13 +73,15 @@ function reset () {
     deleteChild(toFrom);
 
     document.getElementById('inputsError').setAttribute('class', 'hidden');
+    document.getElementById("calculateContainer").setAttribute('class', 'hidden');
+
 }
 
 function resetPeople() {
     document.getElementById("NumberOfPeople").value = '';
 }
 
-function validarCampos() {
+function validateInputs() {
     let inputs = Array.from(document.getElementsByClassName('personinput'));
     if (inputs.length === 0) {
         return;
@@ -85,6 +91,15 @@ function validarCampos() {
     });
     if (!inputsFilled) {
         document.getElementById('inputsError').removeAttribute('class', 'hidden');
+        inputs.forEach( e => {
+            if (e.value  === '') {
+                document.getElementById(e.id).setAttribute('class', 'error');
+                console.log('floro');
+            } else {
+                console.log('floro');
+                document.getElementById(e.id).removeAttribute('class', 'error');
+            }
+        })
         return false;
     } else {
         document.getElementById('inputsError').setAttribute('class', 'hidden');
