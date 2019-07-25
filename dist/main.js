@@ -11,12 +11,14 @@ window.onload = function() {
     });
 
     document.getElementById("BtnCalculate").addEventListener('click', function(){
+        console.log(validateInputs());
         if (!validateInputs()) {
             return;
         }
         CalculaTotal();
         CalculaQuienPagaAQuien();
         MuestraQuienPagaAQuien();
+        this.disabled = true;
     });
 
     document.getElementById("BtnReset").addEventListener('click', function(){
@@ -30,8 +32,9 @@ function GeneratePeopleInputs(){
     reset();
 
     NumPeople = document.getElementById("NumberOfPeople").value -1;
-    people = document.getElementById("PeopleInputs");
+    people = document.getElementById("peopleInputsContainer");
     if (NumPeople >= 0) {
+        document.getElementById("peopleInputsContainer").removeAttribute('class', 'hidden');
         document.getElementById("calculateContainer").removeAttribute('class', 'hidden');
     }
 
@@ -40,16 +43,17 @@ function GeneratePeopleInputs(){
         let person = document.createElement('input');
         person.setAttribute("id", "person"+i);
         person.setAttribute("placeholder", "Person "+(i+1));
-        person.setAttribute("class", "personinput person");
-
+        person.setAttribute("class", "personInput person");
+        person.addEventListener("keyup", validateInput);
+        
         //create input to enter amount payed by the person
         valueInput = document.createElement('input');
         valueInput.setAttribute("id", "amount"+i);
-        valueInput.setAttribute("placeholder", "$0.00");
+        valueInput.setAttribute("placeholder", "$");
         valueInput.setAttribute("onkeypress", "return isNumberKey(event)");
-        valueInput.setAttribute("class", "personinput amount");
+        valueInput.setAttribute("class", "personInput amount");
+        valueInput.addEventListener("keyup", validateInput);
 
-        person.setAttribute("value", "Persona" + i);
         valueInput.setAttribute("value", i);
 
         people.appendChild(person);
@@ -68,15 +72,17 @@ function reset () {
     document.getElementById("pTotal").innerHTML = "Total: ";
     document.getElementById("pEach").innerHTML = "Each: ";
 
-    let PeopleInputsNode = document.getElementById('PeopleInputs');
+    let PeopleInputsNode = document.getElementById('peopleInputsContainer');
     deleteChild(PeopleInputsNode);
     
     let toFrom = document.getElementById('listTransaction');
     deleteChild(toFrom);
 
     document.getElementById('inputsError').setAttribute('class', 'hidden');
+    document.getElementById("peopleInputsContainer").setAttribute('class', 'hidden');
     document.getElementById("calculateContainer").setAttribute('class', 'hidden');
 
+    document.getElementById('BtnCalculate').disabled = false;
 }
 
 function resetPeople() {
@@ -84,7 +90,7 @@ function resetPeople() {
 }
 
 function validateInputs() {
-    let inputs = Array.from(document.getElementsByClassName('personinput'));
+    let inputs = Array.from(document.getElementsByClassName('personInput'));
     if (inputs.length === 0) {
         return;
     }
@@ -92,18 +98,24 @@ function validateInputs() {
         return e.value.length > 0;
     });
     if (!inputsFilled) {
-        document.getElementById('inputsError').removeAttribute('class', 'hidden');
+        document.getElementById('inputsError').classList.remove('hidden');
         inputs.forEach( e => {
-            if (e.value  === '') {
-                document.getElementById(e.id).setAttribute('class', 'error');
-            } else {
-                document.getElementById(e.id).removeAttribute('class', 'error');
-            }
+             if (e.value.length <= 0) {
+                 document.getElementById(e.id).classList.add('error');
+             }
         })
         return false;
     } else {
         document.getElementById('inputsError').setAttribute('class', 'hidden');
         return true;
+    }
+}
+
+function validateInput() {
+    if (this.value === '') {
+        this.classList.add('error');
+    } else {
+        this.classList.remove('error');
     }
 }
 
