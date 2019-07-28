@@ -23,10 +23,6 @@
     width: 30%;
 }
 
-#buttonsContainer {
-    display: flex;
-}
-
 #calculateContainer {
     height: 10%;
 }
@@ -44,13 +40,17 @@
 }
 
 .error {
-    border-bottom: 8px solid #cf000f !important;
-    border-right: 8px solid #cf000f !important;
+    border-bottom: 6px solid #cf000f !important;
+    border-right: 6px solid #cf000f !important;
 }
 
 .errorContainer {
     padding-top: 3%;
     height: 8%;
+}
+
+.flex {
+    display: flex;
 }
 
 .from {
@@ -63,7 +63,9 @@
 
 #inputsError {
     color: #cf000f;
-    padding-left: 5%;
+    position: absolute;
+    right: 0;
+    padding-right: 10%;
 }
 
 .justify-center {
@@ -103,8 +105,8 @@
 }
 
 .personInput {
-    border-bottom: 8px solid transparent;
-    border-right: 8px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 6px solid transparent;
     padding: 2%;
     margin-bottom: 2%;
     margin-top: 2%;
@@ -138,7 +140,6 @@
 }
 
 #resultsContainer {
-    display: flex;
     align-items: center;
 }
 

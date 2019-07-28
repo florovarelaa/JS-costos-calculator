@@ -8,10 +8,11 @@ window.onload = function() {
 
     document.getElementById("btnGenerator").addEventListener('click', function(){
         generatePeopleInputs();
+        let resultsContainer = document.getElementById('resultsContainer');
+        toggleClass(resultsContainer, 'hidden');
     });
 
     document.getElementById("btnCalculate").addEventListener('click', function(){
-        console.log(validateInputs());
         if (!validateInputs()) {
             return;
         }
@@ -34,8 +35,10 @@ function generatePeopleInputs(){
     numPeople = document.getElementById("numberOfPeople").value -1;
     people = document.getElementById("peopleInputsContainer");
     if (numPeople >= 0) {
-        document.getElementById("peopleInputsContainer").removeAttribute('class', 'hidden');
-        document.getElementById("calculateContainer").removeAttribute('class', 'hidden');
+        // document.getElementById("peopleInputsContainer").removeAttribute('class', 'hidden');
+        // document.getElementById("calculateContainer").removeAttribute('class', 'hidden');
+        toggleClass(people, 'hidden');
+        toggleClass(document.getElementById("calculateContainer"), 'hidden');
     }
 
     for(i = 0; i <= numPeople; i++) {
@@ -55,13 +58,18 @@ function generatePeopleInputs(){
         valueInput.setAttribute("class", "personInput amount");
         valueInput.addEventListener("keyup", validateInput);
 
-        valueInput.setAttribute("value", i);
-        person.setAttribute("value", 'Person' + i);
-
         people.appendChild(person);
         people.appendChild(valueInput);
         people.appendChild(document.createElement('br'));
     }
+}
+
+function setClass(element, cssClass) {
+    element.classList.add(cssClass);
+}
+
+function toggleClass(element, cssClass) {
+    element.classList.toggle(cssClass);
 }
 
 function deleteChild(node) { 
@@ -71,17 +79,18 @@ function deleteChild(node) {
 }
 
 function reset () {
-    document.getElementById("pTotal").innerHTML = "Total: ";
-    document.getElementById("pEach").innerHTML = "Each: ";
+    document.getElementById("pTotal").innerHTML = "Total: $0";
+    document.getElementById("pEach").innerHTML = "Each: $0";
 
     let peopleInputsNode = document.getElementById('peopleInputsContainer');
     deleteChild(peopleInputsNode);
     
     resetResults()
 
-    document.getElementById('inputsError').setAttribute('class', 'hidden');
-    document.getElementById("peopleInputsContainer").setAttribute('class', 'hidden');
-    document.getElementById("calculateContainer").setAttribute('class', 'hidden');
+    setClass(document.getElementById('inputsError'), 'hidden');
+    setClass(document.getElementById("peopleInputsContainer"), 'hidden');
+    setClass(document.getElementById("calculateContainer"), 'hidden');
+    setClass(document.getElementById("resultsContainer"), 'hidden');
 }
 
 function resetPeople() {
@@ -136,8 +145,8 @@ function calculaTotal(){
     //cuando debe pagar cada uno redondeado hacia abajo.
     amountEach = Math.floor((total/people.length)*100)/100;
     
-    document.getElementById("pTotal").innerHTML = "Total: " + total;
-    document.getElementById("pEach").innerHTML = "Each: " + amountEach;
+    document.getElementById("pTotal").innerHTML = "Total: $" + total;
+    document.getElementById("pEach").innerHTML = "Each: $" + amountEach;
 }
 
 //calcula quien debe pagar o debe cobrar, cuanto y a quien o de quien. Para cada elemento
