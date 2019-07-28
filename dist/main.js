@@ -18,7 +18,6 @@ window.onload = function() {
         CalculaTotal();
         CalculaQuienPagaAQuien();
         MuestraQuienPagaAQuien();
-        this.disabled = true;
     });
 
     document.getElementById("BtnReset").addEventListener('click', function(){
@@ -55,6 +54,7 @@ function GeneratePeopleInputs(){
         valueInput.addEventListener("keyup", validateInput);
 
         valueInput.setAttribute("value", i);
+        person.setAttribute("value", 'Person' + i);
 
         people.appendChild(person);
         people.appendChild(valueInput);
@@ -220,32 +220,64 @@ function MuestraQuienPagaAQuien(){
         header.appendChild(text);
         paraName.appendChild(header);
         transaction.appendChild(paraName);
-        paraName.setAttribute('class', 'toFrom');
+        paraName.setAttribute('class', 'transaction');
 
         //append to each person name, who to pay and who to receive from
+        
+        let toFromDiv = document.createElement('div');
+        toFromDiv.setAttribute('class', 'toFrom');
+        paraName.appendChild(toFromDiv);
+        
         let paraPayTo = document.createElement('p');
+        paraPayTo.setAttribute('class', 'to');
+
         text = document.createTextNode('To');
         paraPayTo.appendChild(text);
-        paraName.appendChild(paraPayTo);
+        toFromDiv.appendChild(paraPayTo);
 
         let list = document.createElement('ul');
-        paraName.appendChild(list);
+        toFromDiv.appendChild(list);
+
         element.payTo.forEach( element => {
             let li = document.createElement('li');
-            li.textContent = element.name + ': ' + element.amount;
+            let span = document.createElement('span');
+            span.textContent = element.name;
+            li.appendChild(span);
+
+            span = document.createElement('span');
+            span.textContent = element.amount;
+            li.appendChild(span);
+
+            li.setAttribute('class', 'space-around');
             list.appendChild(li);
         });
 
+        toFromDiv = document.createElement('div');
+        toFromDiv.setAttribute('class', 'toFrom');
+        paraName.appendChild(toFromDiv);
+
         let paraReceiveFrom = document.createElement('p');
+        paraReceiveFrom.setAttribute('class', 'from');
+
         text = document.createTextNode('From');
         paraReceiveFrom.appendChild(text);
-        paraName.appendChild(paraReceiveFrom);
+        toFromDiv.appendChild(paraReceiveFrom);
 
         list = document.createElement('ul');
-        paraName.appendChild(list);
+        toFromDiv.appendChild(list);
+
         element.receiveFrom.forEach( element => {
             let li = document.createElement('li');
-            li.textContent = element.name + ': ' + element.amount;
+
+            let span = document.createElement('span');
+            span.textContent = element.name;
+            li.appendChild(span);
+
+            span = document.createElement('span');
+            span.textContent = element.amount;
+            li.appendChild(span);
+
+            li.setAttribute('class', 'space-around');
             list.appendChild(li);
         });
     });

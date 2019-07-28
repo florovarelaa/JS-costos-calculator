@@ -3,6 +3,7 @@
     color: #424242;
     font-family: 'Lato', sans-serif;
     font-size: 6vw;
+    list-style-type: none;
     margin: 0;
     outline: none;
     padding: 0;
@@ -17,15 +18,13 @@
 .button {
     background-color:#e0e0e0;
     border-radius: 10%;
+    box-shadow: 1px 4px 8px 3px #424242;
     height: 50%;
     width: 30%;
 }
 
 #buttonsContainer {
     display: flex;
-    height: 10%;
-    justify-content: space-around;
-    padding-top: 5%;
 }
 
 #calculateContainer {
@@ -39,11 +38,14 @@
 
 .container-flex {
     display: flex;
+    height: 10%;
+    justify-content: space-around;
+    padding-top: 5%;
 }
 
 .error {
-    border-bottom: 8px solid #ab5656 !important;
-    border-right: 8px solid #ab5656 !important;
+    border-bottom: 8px solid #cf000f !important;
+    border-right: 8px solid #cf000f !important;
 }
 
 .errorContainer {
@@ -51,12 +53,16 @@
     height: 8%;
 }
 
+.from {
+    border-right: 4px solid #009944;
+}
+
 .hidden {
     display: none;
 }
 
 #inputsError {
-    color: #ab5656;
+    color: #cf000f;
     padding-left: 5%;
 }
 
@@ -106,6 +112,7 @@
 #peopleInputsContainer {
     background-color: #e0e0e0;
     border-radius: 5%;
+    box-shadow: 1px 4px 8px 3px #424242;
     left: 5%;
     padding: 5%;
     position: relative;
@@ -117,12 +124,26 @@
     box-shadow: inset 0 0 10px #424242;
 }
 
-.p-left-10 {
+.padding-left-10 {
     padding-left: 10%;
 }
 
-.p-top-5 {
+.padding-top-5 {
     padding-top: 5%;
+}
+
+.padding-0 {
+    padding: 0;
+}
+
+#resultsContainer {
+    display: flex;
+    align-items: center;
+}
+
+.space-around {
+    display: flex;
+    justify-content: space-around;
 }
 
 #title h1 {
@@ -131,4 +152,46 @@
     font-size: 10vw;
     height: 100%;
     text-align: center;
+}
+
+.transaction {
+    background-color: #424242;
+    box-shadow: 1px 4px 8px 3px #424242;
+    left: 10%;
+    margin: 5% 0;
+    position: relative;
+    width: 80%;
+}
+
+.transaction h3 {
+    border-bottom: 3px solid #424242;
+    padding: 4% 0;
+    text-align: center;
+}
+
+.to {
+    border-right: 4px solid #cf000f;
+}
+
+.toFrom {
+    border-bottom: 2px solid #424242;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5% 0;
+    width: 100%;
+}
+
+.toFrom li {
+    padding: 4% 0;
+}
+
+.toFrom p {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 25%;
+}
+
+.toFrom ul {
+    width: 70%;
 }
