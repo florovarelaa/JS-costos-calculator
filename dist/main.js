@@ -1,43 +1,44 @@
-var NumPeople;
+var numPeople;
 var people = [];
 var amountEach;
 
 window.onload = function() {
 
-    document.getElementById("NumberOfPeople").focus();
+    document.getElementById("numberOfPeople").focus();
 
-    document.getElementById("BtnPeopleGenerator").addEventListener('click', function(){
-        GeneratePeopleInputs();
+    document.getElementById("btnGenerator").addEventListener('click', function(){
+        generatePeopleInputs();
     });
 
-    document.getElementById("BtnCalculate").addEventListener('click', function(){
+    document.getElementById("btnCalculate").addEventListener('click', function(){
         console.log(validateInputs());
         if (!validateInputs()) {
             return;
         }
-        CalculaTotal();
-        CalculaQuienPagaAQuien();
-        MuestraQuienPagaAQuien();
+        calculaTotal();
+        calculaQuienPagaAQuien();
+        resetResults();
+        muestraQuienPagaAQuien();
     });
 
-    document.getElementById("BtnReset").addEventListener('click', function(){
+    document.getElementById("btnReset").addEventListener('click', function(){
         reset();
         resetPeople();
     });
 };
 
 //Generate People Name and Amount payed inputs on PeopleInputs div
-function GeneratePeopleInputs(){
+function generatePeopleInputs(){
     reset();
 
-    NumPeople = document.getElementById("NumberOfPeople").value -1;
+    numPeople = document.getElementById("numberOfPeople").value -1;
     people = document.getElementById("peopleInputsContainer");
-    if (NumPeople >= 0) {
+    if (numPeople >= 0) {
         document.getElementById("peopleInputsContainer").removeAttribute('class', 'hidden');
         document.getElementById("calculateContainer").removeAttribute('class', 'hidden');
     }
 
-    for(i = 0; i <= NumPeople; i++) {
+    for(i = 0; i <= numPeople; i++) {
         //create input to enter person name
         let person = document.createElement('input');
         person.setAttribute("id", "person"+i);
@@ -50,6 +51,7 @@ function GeneratePeopleInputs(){
         valueInput.setAttribute("id", "amount"+i);
         valueInput.setAttribute("placeholder", "$");
         valueInput.setAttribute("onkeypress", "return isNumberKey(event)");
+        valueInput.setAttribute("onkeyup", "calculaTotal()");
         valueInput.setAttribute("class", "personInput amount");
         valueInput.addEventListener("keyup", validateInput);
 
@@ -62,9 +64,9 @@ function GeneratePeopleInputs(){
     }
 }
 
-function deleteChild(Node) { 
-    while (Node.firstChild) {
-        Node.removeChild(Node.firstChild);
+function deleteChild(node) { 
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
     }
 }
 
@@ -72,21 +74,23 @@ function reset () {
     document.getElementById("pTotal").innerHTML = "Total: ";
     document.getElementById("pEach").innerHTML = "Each: ";
 
-    let PeopleInputsNode = document.getElementById('peopleInputsContainer');
-    deleteChild(PeopleInputsNode);
+    let peopleInputsNode = document.getElementById('peopleInputsContainer');
+    deleteChild(peopleInputsNode);
     
-    let toFrom = document.getElementById('listTransaction');
-    deleteChild(toFrom);
+    resetResults()
 
     document.getElementById('inputsError').setAttribute('class', 'hidden');
     document.getElementById("peopleInputsContainer").setAttribute('class', 'hidden');
     document.getElementById("calculateContainer").setAttribute('class', 'hidden');
-
-    document.getElementById('BtnCalculate').disabled = false;
 }
 
 function resetPeople() {
-    document.getElementById("NumberOfPeople").value = '';
+    document.getElementById("numberOfPeople").value = '';
+}
+
+function resetResults() {
+    let toFrom = document.getElementById('listTransaction');
+    deleteChild(toFrom);
 }
 
 function validateInputs() {
@@ -120,11 +124,13 @@ function validateInput() {
 }
 
 //calcula el total de los costos de cada persona sumados
-function CalculaTotal(){
+function calculaTotal(){
     let total = 0;
-    people = GeneratePeopleArray();
+    people = generatePeopleArray();
     people.forEach(function (element) { //Podria hacerse con un reduce? como?
-        total += element.amount;
+        if (!isNaN(element.amount)) {
+            total += element.amount;
+        }
     });
     
     //cuando debe pagar cada uno redondeado hacia abajo.
@@ -137,7 +143,7 @@ function CalculaTotal(){
 //calcula quien debe pagar o debe cobrar, cuanto y a quien o de quien. Para cada elemento
 //del arreglo personas, establece a quien le deebe pagar y cuanto y
 //de quien debe cobrar y cuanto.
-function CalculaQuienPagaAQuien(){
+function calculaQuienPagaAQuien(){
     let min = getPeopleMin(people);
     while(min.amount != amountEach && min.amount < amountEach){
         let max = getPeopleMax(people);
@@ -194,9 +200,9 @@ function getPeopleMax(currPeople){
 }
 
 //Generate array of people objects with its corresponding attributes.
-function GeneratePeopleArray(){
+function generatePeopleArray(){
     let people = [];
-    for(i = 0; i <= NumPeople; i++){
+    for(i = 0; i <= numPeople; i++){
         let elem = {
             name: document.getElementById("person"+i).value, 
             amount: parseFloat(document.getElementById("amount"+i).value),
@@ -209,7 +215,7 @@ function GeneratePeopleArray(){
     return people
 }
 
-function MuestraQuienPagaAQuien(){
+function muestraQuienPagaAQuien(){
     let transaction = document.querySelector( "#toFrom ul" );
     transaction.text = '';
     people.forEach( element => {
@@ -288,6 +294,5 @@ function isNumberKey(evt)
    let charCode = (evt.which) ? evt.which : event.keyCode
    if (charCode > 31 && (charCode < 48 || charCode > 57))
       return false;
-
    return true;
 }
